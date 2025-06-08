@@ -61,11 +61,19 @@ namespace FinBeatTechTestTask.Service.Implementation
             {
                 var query = _pairValueRepository.GetAll();
 
+                if(query == null)
+                {
+                    return new BaseResponse<PaginatedResponse<List<PairValueViewModel>>>
+                    {
+                        StatusCode = Domain.Enum.StatusCode.DataNotFound
+                    };
+                }
+
                 if (filter.Id.HasValue)
                     query = query.Where(x => x.Id == filter.Id.Value);
 
-                if (!string.IsNullOrWhiteSpace(filter.Code))
-                    query = query.Where(x => x.Code.ToString().Contains(filter.Code));
+                if (filter.Code.HasValue)
+                    query = query.Where(x => x.Code == filter.Code);
 
                 if (!string.IsNullOrWhiteSpace(filter.Value))
                     query = query.Where(x => x.Value.Contains(filter.Value));
@@ -83,6 +91,8 @@ namespace FinBeatTechTestTask.Service.Implementation
                         Value = x.Value
                     })
                     .ToListAsync();
+
+                
 
                 return new BaseResponse<PaginatedResponse<List<PairValueViewModel>>>
                 {

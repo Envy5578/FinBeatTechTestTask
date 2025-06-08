@@ -9,7 +9,7 @@ namespace FinBeatTechTestTask.Domain.Filters.DataFilter
     public class PairValueFilter : PagingFilter
     {
         public int? Id { get; set; }
-        public string? Code { get; set; }
+        public int? Code { get; set; }
         public string? Value { get; set; }
     }
 }

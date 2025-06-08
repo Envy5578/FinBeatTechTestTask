@@ -37,7 +37,7 @@ namespace FinBeatTechTestTask.Controllers
         /// <summary>
         /// Отправка сортированных данных
         /// </summary>
-        /// <param></param>
+        /// <param>PairValueFilter object</param>
         /// <returns>Return PairValueViewModel</returns>
         [HttpGet]
         public async Task<IActionResult> GetPairValues([FromQuery] PairValueFilter filter)
