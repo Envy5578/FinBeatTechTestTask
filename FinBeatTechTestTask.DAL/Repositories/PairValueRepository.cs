@@ -1,5 +1,6 @@
 ﻿using FinBeatTechTestTask.DAL.Interfaces;
 using FinBeatTechTestTask.Domain.Entity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,9 @@ namespace FinBeatTechTestTask.DAL.Repositories
         }
         public async Task Clear()
         {
-            var allEntities = _appDbContext.pairValues.ToList();
-            if (allEntities.Any())
-            {
-                _appDbContext.pairValues.RemoveRange(allEntities);
-                await _appDbContext.SaveChangesAsync();
-            }
+            var allEntities = await _appDbContext.pairValues.ToListAsync();
+            _appDbContext.pairValues.RemoveRange(allEntities);
+            await _appDbContext.SaveChangesAsync();
         }
         public async Task AddRange(IEnumerable<PairValueEntity> entities)
         {

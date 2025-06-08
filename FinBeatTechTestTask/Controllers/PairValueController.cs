@@ -28,7 +28,7 @@ namespace FinBeatTechTestTask.Controllers
 
             if (result.StatusCode == Domain.Enum.StatusCode.OK) 
             { 
-                return Ok(new {data = result.Data});            
+                return Ok(new {data = result.Description});            
             }
 
             return BadRequest(new {data = result.Description});

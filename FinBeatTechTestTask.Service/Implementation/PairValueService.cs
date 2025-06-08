@@ -1,6 +1,7 @@
 ﻿using FinBeatTechTestTask.DAL.Interfaces;
 using FinBeatTechTestTask.Domain.Entity;
 using FinBeatTechTestTask.Domain.Enum;
+using FinBeatTechTestTask.Domain.Extenstions;
 using FinBeatTechTestTask.Domain.Filters.DataFilter;
 using FinBeatTechTestTask.Domain.Response;
 using FinBeatTechTestTask.Domain.ViewModels.PairValue;
@@ -55,11 +56,16 @@ namespace FinBeatTechTestTask.Service.Implementation
                 };
             }
         }
+
         public async Task<IBaseResponse<PaginatedResponse<List<PairValueViewModel>>>> GetPairValues(PairValueFilter filter)
         {
             try
             {
-                var query = _pairValueRepository.GetAll();
+                var query = _pairValueRepository
+                                    .GetAll()
+                                    .WhereIf(filter.Id.HasValue, x => x.Id == filter.Id.Value)
+                                    .WhereIf(filter.Code.HasValue, x => x.Code == filter.Code)
+                                    .WhereIf(!string.IsNullOrWhiteSpace(filter.Value), x => x.Value.Contains(filter.Value));
 
                 if(query == null)
                 {
@@ -67,16 +73,7 @@ namespace FinBeatTechTestTask.Service.Implementation
                     {
                         StatusCode = Domain.Enum.StatusCode.DataNotFound
                     };
-                }
-
-                if (filter.Id.HasValue)
-                    query = query.Where(x => x.Id == filter.Id.Value);
-
-                if (filter.Code.HasValue)
-                    query = query.Where(x => x.Code == filter.Code);
-
-                if (!string.IsNullOrWhiteSpace(filter.Value))
-                    query = query.Where(x => x.Value.Contains(filter.Value));
+                }                        
 
                 var totalCount = await query.CountAsync();
 
@@ -91,8 +88,6 @@ namespace FinBeatTechTestTask.Service.Implementation
                         Value = x.Value
                     })
                     .ToListAsync();
-
-                
 
                 return new BaseResponse<PaginatedResponse<List<PairValueViewModel>>>
                 {
