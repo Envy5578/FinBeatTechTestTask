@@ -20,7 +20,11 @@ namespace FinBeatTechTestTask.Controllers
         /// Получение Json массива объектов
         /// </summary>
         /// <param name="model">PairValueViewModel object</param>
-        /// <returns>Return Request</returns>
+        /// <returns>
+        /// Returns an HTTP response with the result of the operation:
+        /// 200 OK if the update was successful, 400 Bad Request in case of an error.
+        /// The response body contains a description of the result.
+        /// </returns>
         [HttpPost]
         public async Task<IActionResult> RefreshPairValues(List<PairValueViewModel> model)
         {
