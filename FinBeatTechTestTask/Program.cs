@@ -1,3 +1,10 @@
+using FinBeatTechTestTask.DAL;
+using FinBeatTechTestTask.DAL.Interfaces;
+using FinBeatTechTestTask.DAL.Repositories;
+using FinBeatTechTestTask.Domain.Entity;
+using FinBeatTechTestTask.Service.Implementation;
+using FinBeatTechTestTask.Service.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +19,16 @@ builder.Services.AddSwaggerGen(config =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     config.IncludeXmlComments(xmlPath);
+});
+
+builder.Services.AddScoped<IBaseRepository<PairValueEntity>, PairValueRepository>();
+builder.Services.AddScoped<IPairValueService, PairValueService>();
+
+var connetionString = builder.Configuration.GetConnectionString("PgSql");
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseNpgsql(connetionString);
 });
 
 var app = builder.Build();

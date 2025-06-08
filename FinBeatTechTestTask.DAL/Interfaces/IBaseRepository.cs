@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace FinBeatTechTestTask.DAL.Interfaces
 {
-    public interface IBaseRepository
+    public interface IBaseRepository<T>
     {
+        Task AddRange(IEnumerable<T> entities);
+        IQueryable<T> GetAll();
+        Task Clear();
     }
 }

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FinBeatTechTestTask.DAL\FinBeatTechTestTask.DAL.csproj" />
+    <ProjectReference Include="..\FinBeatTechTestTask.Domain\FinBeatTechTestTask.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

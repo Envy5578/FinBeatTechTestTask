@@ -8,5 +8,9 @@ namespace FinBeatTechTestTask.Domain.Enum
 {
     public enum StatusCode
     {
+        InvalidData = 1,
+        DataNotFound = 2,
+        OK = 200,
+        InternalServerError = 500
     }
 }
